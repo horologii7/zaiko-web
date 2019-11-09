@@ -11,10 +11,11 @@ export const ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Resumo',  icon: 'dashboard', class: '' },
     { path: '/user-profile', title: 'Vendas',  icon:'store', class: '' },
     { path: '/stock', title: 'Estoque',  icon:'all_inbox', class: '' },
-    { path: '/table-list', title: 'Produtos',  icon:'shopping_basket', class: '' },
+    { path: '/products', title: 'Produtos',  icon:'shopping_basket', class: '' },
+    { path: '/table-list', title: 'Tabelas',  icon:'shopping_basket', class: '' },
     { path: '/icons', title: 'Relatórios',  icon:'content_paste', class: '' },
     //{ path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
-    { path: '/upgrade', title: 'Configuração',  icon:'build', class: 'active-pro' }
+    { path: '/upgrade', title: 'Configuração',  icon:'build', class: '' }
 ];
 
 @Component({

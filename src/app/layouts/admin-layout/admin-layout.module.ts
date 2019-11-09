@@ -13,6 +13,9 @@ import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 
+// components
+import { ProductsComponent } from '../../products/products.component';
+
 import {
   MatButtonModule,
   MatInputModule,
@@ -35,6 +38,7 @@ import {
     MatTooltipModule,
   ],
   declarations: [
+    ProductsComponent,
     DashboardComponent,
     UserProfileComponent,
     TableListComponent,
