@@ -15,6 +15,23 @@ import { UpgradeComponent } from '../../upgrade/upgrade.component';
 
 // components
 import { ProductsComponent } from '../../products/products.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NgxCurrencyModule } from "ngx-currency";
+import {NgxPaginationModule} from 'ngx-pagination';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
+
+export const customCurrencyMaskConfig = {
+  align: "right",
+  allowNegative: false,
+  allowZero: true,
+  decimal: ",",
+  precision: 2,
+  prefix: "R$ ",
+  suffix: "",
+  thousands: ".",
+  nullable: true
+};
 
 import {
   MatButtonModule,
@@ -36,6 +53,9 @@ import {
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    NgxMaskModule.forRoot(options),
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
+    NgxPaginationModule
   ],
   declarations: [
     ProductsComponent,

@@ -1,0 +1,64 @@
+#card-add-product {
+  background:#9C27B0;
+}
+
+#button-add-product {
+  background: #fff;
+  color: #9C27B0;
+  width: 100%;
+}
+
+.form-card {
+  color: #fff;
+  width: 100%;
+}
+
+.form-card::placeholder {
+  color: #e5e5e5;
+}
+
+.input-name span {
+  color: red; 
+}
+
+#formErrorIconColor {
+  color: #fff; 
+  align-content: center;
+  justify-content: center;
+}
+
+#infoError {
+  align-content: center;
+  justify-content: center;
+}
+
+.alignError {
+  align-content: center;
+  justify-content: center;
+}
+
+.alertErrorInfo {
+  padding-bottom: 1px;
+  padding-top: 13px;
+}
+
+#searchProduct {
+  color: #9C27B0;
+}
+
+#searchProduct::placeholder {
+  color: #9C27B0;
+  opacity: 1; 
+}
+
+.productsPagination /deep/ .ngx-pagination .current {
+  background: #9C27B0;
+}
+
+.productsPagination {
+  text-align: center;
+}
+
+.productsPagination /deep/ ul.ngx-pagination {
+  padding-left: 0;
+}

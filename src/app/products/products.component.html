@@ -1,5 +1,86 @@
 <div class="main-content">
   <div class="container-fluid">
-    
-  </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger" id="card-add-product">
+            <h4 class="card-title">Adicionar produto</h4>
+            <form (ngSubmit)="createProduct()">
+              <div class="row">
+                <div class="col-md-3 form-group">
+                  <input required type="text" class="form-control form-card" [(ngModel)]="newProduct.name" #name="ngModel" name="name" placeholder="Nome" (keyup)="formError=null">
+                  <div class="alert alert-danger alertErrorInfo" *ngIf="formError">
+                    <div *ngFor="let error of formError" class="alignError">
+                      <i class="material-icons row" id="formErrorIconColor">error</i> <p class="row" id="infoError">Nome {{error}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 form-group">
+                  <input type="text" class="form-control form-card" [(ngModel)]="newProduct.description" name="description" placeholder="Descrição">
+                </div>
+                <div class="col-md-2 form-group">
+                  <input type="text" currencyMask class="form-control form-card" [(ngModel)]="newProduct.sale_price" name="sale_price" placeholder="Preço de venda">
+                </div>
+                
+                <div class="col-md-3" style="position: relative" *ngIf="!name.invalid">
+                  <button class="btn btn-primary" type="submit" id="button-add-product">
+                    Adicionar
+                  </button>
+                </div>
+                <div class="col-md-3" style="position: relative" *ngIf="name.invalid">
+                  <button class="btn btn-primary" type="submit" id="button-add-product" disabled>
+                    Adicionar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                  <thead class=" text-primary">
+                  <th>#</th>
+                  <th style="padding-bottom:6px;padding-left:8px;">
+                    <input #searchInput type="text" (keyup)="searchProduct(searchInput.value)" class="form-control" placeholder="Nome (Digite aqui para pesquisar)" id="searchProduct" >
+                  </th>
+                  <th style='padding-left:8px;'>Descrição</th>
+                  <th style='padding-left:8px;'>Preço de venda</th>
+                  <th style='padding-left:8px;'></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of products | paginate: { itemsPerPage: 4, currentPage: p, totalItems: total }">
+                    <td>{{product.id}}</td>
+                    <td *ngIf="!(editProduct.id==product.id)">{{product.name}}</td>
+                    <td *ngIf="!(editProduct.id==product.id)">{{product.description}}</td>
+                    <td class="text-primary" *ngIf="!(editProduct.id==product.id)">{{product.sale_price | currency:'BRL':true}}</td>
+
+                    <td *ngIf="editProduct.id==product.id"><input required type="text" class="form-control form-card" [(ngModel)]="editProduct.name" name="name" placeholder="Nome" style="color: #000"></td>
+                    <td *ngIf="editProduct.id==product.id"><input type="text" class="form-control form-card" [(ngModel)]="editProduct.description" name="description" placeholder="Descrição" style="color: #000"></td>
+                    <td *ngIf="editProduct.id==product.id"><input type="text" currencyMask class="form-control form-card" [(ngModel)]="editProduct.sale_price" name="sale_price" placeholder="Preço de venda" style="color: #9C27B0"></td>
+                   
+                    <td style="text-align: right;">
+                      <button class="btn btn-sm btn-warning" (click)="buttonEditProduct(product)" *ngIf="!(editProduct.id==product.id)">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn btn-sm btn-success" (click)="updateProduct(product)" *ngIf="editProduct.id==product.id">
+                        <i class="material-icons">check</i>
+                      </button>
+                      <button class="btn btn-sm btn-danger" (click)="deleteProduct(product)" *ngIf="!(editProduct.id==product.id)">
+                        <i class="material-icons">delete_sweep</i>
+                      </button>
+                      <button class="btn btn-sm btn-danger" (click)="cancelEditProduct(product)" *ngIf="editProduct.id==product.id">
+                        <i class="material-icons">clear</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <pagination-controls (pageChange)="p = $event"  previousLabel="" nextLabel="" class="productsPagination"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
 </div>

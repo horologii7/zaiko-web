@@ -1,6 +1,6 @@
 // angular imports
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,14 +8,19 @@ import { RouterModule } from '@angular/router';
 
 // angular plugins imports
 import { AngularTokenModule } from 'angular-token';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
+// angular services
+import { ProductService } from './products/shared/product.service';
+import { TokenService } from './shared/token.service'
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
 import { AppComponent } from './app.component';
-import { AgmCoreModule } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localePt, 'pt-BR');
 
 @NgModule({
   imports: [
@@ -27,18 +32,26 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    }),
     AngularTokenModule.forRoot({
-      apiBase: 'http://localhost:3000'
+      apiBase: 'http://localhost:3000/'
+    }),
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true
     })
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent
   ],
-  providers: [AngularTokenModule],
+  providers: [
+    AngularTokenModule,
+    ProductService,
+    TokenService,
+    ToastrService,
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
