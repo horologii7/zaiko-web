@@ -12,6 +12,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 // angular services
 import { ProductService } from './products/shared/product.service';
+import { StockService } from './stock/shared/stock.service';
 import { TokenService } from './shared/token.service'
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -50,6 +51,7 @@ registerLocaleData(localePt, 'pt-BR');
     ProductService,
     TokenService,
     ToastrService,
+    StockService,
     { provide: LOCALE_ID, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent]

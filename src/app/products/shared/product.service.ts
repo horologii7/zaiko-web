@@ -7,6 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Product } from './product.model';
 import { TokenService } from "../../shared/token.service";
 import { HttpClient } from "@angular/common/http"
+import { Stock } from "app/stock/shared/stock.model";
 
 @Injectable()
 
@@ -14,6 +15,15 @@ export class ProductService{
   public productsUrl = "products"
 
   public constructor (private tokenHttp: TokenService, private httpClient: HttpClient) { }
+
+  public get(id: number): Observable<Product>{
+    let url = this.tokenHttp.apiBase + this.productsUrl + '/' + id;
+
+    return this.httpClient.get(url).pipe(
+      catchError(this.handleErrors),
+      map((response: Response) => this.responseToProduct(response))
+    )
+  }
 
   public getAll(): Observable<Product[]>{
     let url = this.tokenHttp.apiBase + this.productsUrl
@@ -34,7 +44,9 @@ export class ProductService{
 
   public update(product: Product): Observable<Product> {
     let url = this.tokenHttp.apiBase + this.productsUrl + '/' + product.id;
-
+    
+    product.stock = null;
+    
     return this.httpClient.put(url, product).pipe(
       catchError(this.handleErrors),
       map((response: Response) => this.responseToProduct(response))
@@ -66,13 +78,29 @@ export class ProductService{
 
   private responseToProduct(response: Response): Product {
     let product_json = response['data'];
+    let product_attributes_json = product_json['attributes']
+    let product_attributes_stock_json = product_json['attributes']['stock']
 
-    return new Product(
-      product_json['attributes']['name'],
+    let product = new Product (
+      product_attributes_json['name'],
       product_json['id'],
-      product_json['attributes']['description'],
-      product_json['attributes']["sale-price"]
+      product_attributes_json['description'],
+      product_attributes_json["sale-price"],
+      product_attributes_json['created-at'],
+      product_attributes_json["updated-at"]
     )
+
+    product.stock = new Stock(
+      product_attributes_stock_json['id'], 
+      product_attributes_stock_json['quantity'], 
+      product_attributes_stock_json['cost'], 
+      product_attributes_stock_json['status'], 
+      product_attributes_stock_json['created_at'],
+      product_attributes_stock_json['updated_at'],
+      product
+    )
+
+    return product;
   }
 
   private responseToProducts(response: Response): Product[]{
@@ -80,11 +108,24 @@ export class ProductService{
     let products: Product[] = [];
     
     collection.forEach(item => {
+
       let product = new Product (
         item.attributes.name,
         item.id,
         item.attributes.description,
-        item.attributes["sale-price"]
+        item.attributes["sale-price"],
+        item.attributes['created-at'],
+        item.attributes['updated-at']
+      )
+      
+      product.stock = new Stock(
+        item.attributes.stock.id, 
+        item.attributes.stock.quantity, 
+        item.attributes.stock.cost, 
+        item.attributes.stock.status, 
+        item.attributes.stock.created_at,
+        item.attributes.stock.updated_at,
+        product
       )
 
       products.push(product)
